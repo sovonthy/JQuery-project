@@ -1,26 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>jQuery Project</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>JQuery Project</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
+
 <body>
-    <div class="container">
-            <select name="" id="recipe">
-                    <option >Nom Pom</option>
-                    <option >Chocolate cake</option>
-                    <option >Avocado Shake (Toek KaLok)</option>
-                </select>
+
+
+
+
+    <div class="container mt-5">
         <div class="row">
-          
+            <div class="col-4"></div>
+            <div class="col-4">
+                <select id="recipe" class="form-control">
+                    <option value="" disabled selected>Choose Recipe</option>
+                </select>
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="contaimer mt-5">
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-3">
+                    <table class="table table-borderless" id="card"></table>
+                </div>
+                <div class="col-3">
+                    <table class="table table-borderless" id="cards"></table>
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <table class="table table-borderless" >
+                            <h2 class="text-center" id="ingredient">Ingredient</h2>
+                        <div class="card"id="table"></div>
+                    </table>
+                </div>
+                <div class="col-6" >
+                    <h2 class="text-center" id="introduction">Introduction</h2>
+                    <div class="card" id="instruction"></div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/script.js"></script>
 </body>
+
 </html>

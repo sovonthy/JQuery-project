@@ -1,27 +1,108 @@
 
 
-$(document).ready(function() {
-    var  url = 'https://raw.githubusercontent.com/radytrainer/test-api/master/test.json';
+function getUrl() {
+    var url = "https://raw.githubusercontent.com/radytrainer/test-api/master/test.json";
+    return url;
+}
+$(document).ready(() => {
+    requestApi();
+    $('#recipe').on('change', function () {
+        var recipes = $('#recipe').val();
+        getRecipe(recipes);
+
+
+    });
+});
+function requestApi() {
     $.ajax({
-       dataType: 'json',
-       url: url,
-       success: function(data) {
-           var result = "";
-           data.recipes.forEach(el => {
-               result += `
-               <div class="col-4">
-               <div class="card shadow-lg mt-5">
-               <div class="card-body">
-               ${el.name}
-               <img src="${el.iconUrl}" class="img-fluid rounded">
-               </div>
-             
-               </div>
-               </div>
-             
-               `
-           });
-           $('.row').append(result);
-       }
+        dataType: 'json',
+        url: getUrl(),
+        success: (data) => chhosenRechipe(data.recipes),
+        error: () => console.log("Cannot get data"),
     })
-})
+}
+var alldata = [];
+function chhosenRechipe(rechipe) {
+    alldata = rechipe;
+    var Option = "";
+    rechipe.forEach(element => {
+        Option += `
+            <option value = "${element.id}">${element.name}</option>
+        `;
+    });
+    $('#recipe').append(Option);
+}
+function getRecipe(rechipeId) {
+    alldata.forEach(element => {
+        if (element.id == rechipeId) {
+            getEachRecipe(element.name, element.iconUrl);
+            eachIngredient(element.ingredients);
+            eachStep(element.instructions);
+        }
+
+
+    });
+}
+
+
+var getEachRecipe = (name, img) => {
+    var result = "";
+    result += `
+        <h3>${name}</h3> 
+    `;
+    $('#card').html(result);
+
+    var results = "";
+    results += `
+        <img src="${img}" width="100"> 
+    `;
+    $('#cards').html(results);
+}
+
+
+/// Get ingredients
+$('#ingredient').hide();
+function eachIngredient(ingredient) {
+    var ing = "";
+    ingredient.forEach(el => {
+        ing += `
+            <tr>
+              <td><img src="${el.iconUrl}" width="50"></td>
+                <td>${el.name}</td>
+                <td>${el.quantity}</td>
+                <td>${el.unit[0]}</td>
+                
+            </tr>
+        `;
+    });
+    $('#table').html(ing);
+    $('#ingredient').show();
+}
+
+
+//// get instruction
+$('#introduction').hide();
+function eachStep(step) {
+    var steps = step.split('<step>');
+    var listStep = "";
+    
+    for(var i =1; i < steps.length; i++) {
+        listStep += `
+           <li class = "list-group-item" style= "border:none;">
+            <strong class = "text-primary">Step:${i}</strong>
+            <br>
+            &nbsp;
+            ${steps[i]}
+            </li>
+        `
+    }
+    $('#instruction').html(listStep);
+    $('#introduction').show();
+}
+
+
+
+
+
+
+
