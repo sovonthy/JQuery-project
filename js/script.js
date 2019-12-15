@@ -17,20 +17,20 @@ function requestApi() {
     $.ajax({
         dataType: 'json',
         url: getUrl(),
-        success: (data) => chhosenRechipe(data.recipes),
+        success: (data) => chooseRecipe(data.recipes),
         error: () => console.log("Cannot get data"),
     })
 }
 var alldata = [];
-function chhosenRechipe(rechipe) {
+function chooseRecipe(rechipe) {
     alldata = rechipe;
-    var Option = "";
+    var select = "";
     rechipe.forEach(element => {
-        Option += `
+        select += `
             <option value = "${element.id}">${element.name}</option>
         `;
     });
-    $('#recipe').append(Option);
+    $('#recipe').append(select);
 }
 function getRecipe(rechipeId) {
     alldata.forEach(element => {
@@ -54,9 +54,10 @@ var getEachRecipe = (name, img) => {
 
     var results = "";
     results += `
-        <img src="${img}" width="100"> 
+        <img src="${img}" width="120"> 
     `;
     $('#cards').html(results);
+
 }
 
 
@@ -66,6 +67,7 @@ function eachIngredient(ingredient) {
     var ing = "";
     ingredient.forEach(el => {
         ing += `
+    
             <tr>
               <td><img src="${el.iconUrl}" width="50"></td>
                 <td>${el.name}</td>
@@ -85,7 +87,6 @@ $('#introduction').hide();
 function eachStep(step) {
     var steps = step.split('<step>');
     var listStep = "";
-    
     for(var i =1; i < steps.length; i++) {
         listStep += `
            <li class = "list-group-item" style= "border:none;">
