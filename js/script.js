@@ -3,7 +3,7 @@ function getUrl() {
     var url = "https://raw.githubusercontent.com/radytrainer/test-api/master/test.json";
     return url;
 }
-//request API 
+// get api [arrow function]
 function requestApi() {
     $.ajax({
         dataType: 'json',
@@ -14,12 +14,15 @@ function requestApi() {
 }
 $(document).ready(() => {
     requestApi();
+// get all recipe [name function]
     $('#recipe').on('change', function () {
         var recipes = $('#recipe').val();
         getRecipe(recipes);
     });
 });
 
+
+// function 
 function getRecipe(recipeID) {
     alldata.forEach(element => {
         var{id, name,iconUrl, ingredients, instructions,nbGuests} = element;
@@ -28,10 +31,9 @@ function getRecipe(recipeID) {
             eachIngredient(ingredients);
             eachStep(instructions);
             getMember(nbGuests);
-            sum(element);
+            plus(element);
             minus(element);
-            getQuanlities = element;
-            //get OldGuest
+            dataQuantity = element;
             oldGuest = element.nbGuests;
           
         }
@@ -51,19 +53,19 @@ function  getMember(nubGuest){
         `;
         $('#choose').html(choose);
 
- // function click on icon sum
+ // function when we click minus button
 $("#plus").on('click', function () {
     var num = parseInt($("#input").val());
     sum(num);
 })
-// function click on icon minus
+// function when we click plus button
 $("#minus").on('click', function () {
     var num = parseInt($("#input").val());
     minus(num);
 })
 }
 
-
+//function to get all recipe in select box 
 var alldata = [];
 function chooseRecipe(recipe) {
     alldata = recipe;
@@ -76,6 +78,8 @@ function chooseRecipe(recipe) {
     });
     $('#recipe').append(select);
 }
+
+// function to get name of recipe and image recipe
 var getEachRecipe = (name, img) => {
     var nameOfRecipe = "";
     nameOfRecipe += `
@@ -90,8 +94,10 @@ var getEachRecipe = (name, img) => {
     $('#recipePic').html(Recipe);
 
 }
-/// Get ingredients
+// hide Ingredient text before choose recipe
 $('#ingredient').hide();
+
+// function to get all ingredient
 function eachIngredient(ingredient) {
     var ing = "";
     ingredient.forEach(element => {
@@ -106,11 +112,15 @@ function eachIngredient(ingredient) {
         `;
     });
     $('#table').html(ing);
+
+    // show Ingredient text after choose recipe
     $('#ingredient').show();
 }
 
-//// get instruction
+// hide Introduction text before choose recipe
 $('#introduction').hide();
+
+// function to cut step of introduction
 function eachStep(step) {
     var steps = step.split('<step>');
     var cutStep = "";
@@ -125,17 +135,18 @@ function eachStep(step) {
         `
     }
     $('#instruction').html(cutStep);
+    // show Introduction text after choose recipe
     $('#introduction').show();
 }
-
-function sum(number) {
+// function increase number when click plus button
+function plus(number) {
     var add = parseInt(number) +1;
     if(add <= 15) {
         $("#input").val(add);
         getGuest($("#input").val());
     }
 }
-// decrease value when click on icon minus
+// function decrease number when click minus button
 function minus(number) {
     var minus = parseInt(number)-1;
     if(minus >= 1) {
@@ -144,18 +155,15 @@ function minus(number) {
     }
 }
 
-
 //new quantity = new guest * old quantity / old quest
-// function for new quanlity
+// function to calculate quantity
 function getGuest(ingredient) {
-    var oldQuantity;
     var newQuanlity;
-    var result = "";
-    getQuanlities.ingredients.forEach(element => {
+    var resultQuantity = "";
+    dataQuantity.ingredients.forEach(element => {
         var {quantity,iconUrl,name,unit} = element;
-       // oldQuantity = quantity/oldGuest;
-        newQuanlity = quantity/oldGuest*ingredient;
-        result += `
+        newQuanlity = ingredient * quantity / oldGuest;
+        resultQuantity += `
         <tr>
         <td><img src="${iconUrl}" style="width:100px"></td>
         <td id='quantity'>${newQuanlity}</td>
@@ -164,6 +172,6 @@ function getGuest(ingredient) {
         </tr>
     `;
     });
-     $("#table").html(result);
+     $("#table").html(resultQuantity);
 }
 
