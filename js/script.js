@@ -56,7 +56,7 @@ function  getMember(nubGuest){
  // function when we click minus button
 $("#plus").on('click', function () {
     var num = parseInt($("#input").val());
-    sum(num);
+    plus(num);
 })
 // function when we click plus button
 $("#minus").on('click', function () {
@@ -104,7 +104,7 @@ function eachIngredient(ingredient) {
         var {iconUrl,quantity,unit,name} = element;
         ing += `
             <tr>
-              <td><img src="${iconUrl}" width="100"></td>
+              <td><img src="${iconUrl}" width="70"></td>
                 <td>${quantity}</td>
                 <td>${unit[0]}</td>
                 <td>${name}</td>
@@ -140,17 +140,17 @@ function eachStep(step) {
 }
 // function increase number when click plus button
 function plus(number) {
-    var add = parseInt(number) +1;
-    if(add <= 15) {
-        $("#input").val(add);
+    var addNumber = parseInt(number) +1;
+    if(addNumber <= 15) {
+        $("#input").val(addNumber);
         getGuest($("#input").val());
     }
 }
 // function decrease number when click minus button
 function minus(number) {
-    var minus = parseInt(number)-1;
-    if(minus >= 1) {
-        $("#input").val(minus);
+    var minusNumber = parseInt(number)-1;
+    if(minusNumber >= 1) {
+        $("#input").val(minusNumber);
         getGuest($("#input").val());
     }
 }
@@ -165,7 +165,7 @@ function getGuest(ingredient) {
         newQuanlity = ingredient * quantity / oldGuest;
         resultQuantity += `
         <tr>
-        <td><img src="${iconUrl}" style="width:100px"></td>
+        <td><img src="${iconUrl}" style="width:70px"></td>
         <td id='quantity'>${newQuanlity}</td>
         <td>${unit[0]}</td>
         <td>${name}</td>
