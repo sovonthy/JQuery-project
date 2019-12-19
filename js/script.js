@@ -3,7 +3,7 @@ function getUrl() {
     var url = "https://raw.githubusercontent.com/radytrainer/test-api/master/test.json";
     return url;
 }
-// get api [arrow function]
+// get api 
 function requestApi() {
     $.ajax({
         dataType: 'json',
@@ -14,7 +14,7 @@ function requestApi() {
 }
 $(document).ready(() => {
     requestApi();
-// get all recipe [name function]
+// get all recipe
     $('#recipe').on('change', function () {
         var recipes = $('#recipe').val();
         getRecipe(recipes);
@@ -22,7 +22,7 @@ $(document).ready(() => {
 });
 
 
-// function 
+// function to get all information of recipe 
 function getRecipe(recipeID) {
     alldata.forEach(element => {
         var{id, name,iconUrl, ingredients, instructions,nbGuests} = element;
@@ -33,12 +33,12 @@ function getRecipe(recipeID) {
             getMember(nbGuests);
             plus(element);
             minus(element);
-            dataQuantity = element;
-            oldGuest = element.nbGuests;
-          
+            alldata = element;
+            oldGuest = element.nbGuests; 
         }
     });
 }
+// function to get input number of guest 
 function  getMember(nubGuest){
     var choose = "";
         choose +=`
@@ -157,12 +157,12 @@ function minus(number) {
 
 //new quantity = new guest * old quantity / old quest
 // function to calculate quantity
-function getGuest(ingredient) {
+function getGuest(newGuest) {
     var newQuanlity;
     var resultQuantity = "";
     dataQuantity.ingredients.forEach(element => {
         var {quantity,iconUrl,name,unit} = element;
-        newQuanlity = ingredient * quantity / oldGuest;
+        newQuanlity = newGuest * quantity / oldGuest;
         resultQuantity += `
         <tr>
         <td><img src="${iconUrl}" style="width:70px"></td>
