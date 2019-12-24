@@ -1,9 +1,9 @@
-
+//function get api
 function getUrl() {
     var url = "https://raw.githubusercontent.com/radytrainer/test-api/master/test.json";
     return url;
 }
-// get api 
+//function request API 
 function requestApi() {
     $.ajax({
         dataType: 'json',
@@ -12,17 +12,15 @@ function requestApi() {
         error: () => console.log("Cannot get data"),
     })
 }
+//function start process
 $(document).ready(() => {
     requestApi();
-// get all recipe
     $('#recipe').on('change', function () {
         var recipes = $('#recipe').val();
         getRecipe(recipes);
     });
 });
-
-
-// function to get all information of recipe 
+//function show all information from api
 function getRecipe(recipeID) {
     alldata.forEach(element => {
         var{id, name,iconUrl, ingredients, instructions,nbGuests} = element;
@@ -31,10 +29,11 @@ function getRecipe(recipeID) {
             eachIngredient(ingredients);
             eachStep(instructions);
             getMember(nbGuests);
-            plus(element);
+            sum(element);
             minus(element);
-            alldata = element;
-            oldGuest = element.nbGuests; 
+            allQuantities = element;
+            oldGuest = element.nbGuests;
+          
         }
     });
 }
@@ -56,7 +55,7 @@ function  getMember(nubGuest){
  // function when we click minus button
 $("#plus").on('click', function () {
     var num = parseInt($("#input").val());
-    plus(num);
+    sum(num);
 })
 // function when we click plus button
 $("#minus").on('click', function () {
@@ -79,6 +78,7 @@ function chooseRecipe(recipe) {
     $('#recipe').append(select);
 }
 
+$('#greenCard').hide();
 // function to get name of recipe and image recipe
 var getEachRecipe = (name, img) => {
     var nameOfRecipe = "";
@@ -86,25 +86,24 @@ var getEachRecipe = (name, img) => {
         <h3>${name}</h3> 
     `;
     $('#recipeName').html(nameOfRecipe);
+    $('#greenCard').show();
 
     var Recipe = "";
     Recipe += `
-        <img src="${img}" width="200"> 
+        <img src="${img}" class="img-thumbnail" width="200"> 
     `;
     $('#recipePic').html(Recipe);
 
 }
-// hide Ingredient text before choose recipe
-$('#ingredient').hide();
-
 // function to get all ingredient
+$('#ingredient').hide();
 function eachIngredient(ingredient) {
     var ing = "";
     ingredient.forEach(element => {
         var {iconUrl,quantity,unit,name} = element;
         ing += `
             <tr>
-              <td><img src="${iconUrl}" width="70"></td>
+              <td><img src="${iconUrl}" width="60"></td>
                 <td>${quantity}</td>
                 <td>${unit[0]}</td>
                 <td>${name}</td>
@@ -113,14 +112,12 @@ function eachIngredient(ingredient) {
     });
     $('#table').html(ing);
 
-    // show Ingredient text after choose recipe
+     // show Ingredient text after choose recipe
     $('#ingredient').show();
 }
 
-// hide Introduction text before choose recipe
-$('#introduction').hide();
-
 // function to cut step of introduction
+$('#introduction').hide();
 function eachStep(step) {
     var steps = step.split('<step>');
     var cutStep = "";
@@ -129,49 +126,50 @@ function eachStep(step) {
            <li class = "list-group-item" style= "border:none;">
             <strong class = "text-primary">Step:${i}</strong>
             <br>
-            &nbsp;
+            &nbsp; &nbsp;
             ${steps[i]}
             </li>
         `
     }
     $('#instruction').html(cutStep);
-    // show Introduction text after choose recipe
     $('#introduction').show();
 }
+
 // function increase number when click plus button
-function plus(number) {
-    var addNumber = parseInt(number) +1;
-    if(addNumber <= 15) {
-        $("#input").val(addNumber);
+function sum(number) {
+    var add = parseInt(number) +1;
+    if(add <= 15) {
+        $("#input").val(add);
         getGuest($("#input").val());
     }
 }
 // function decrease number when click minus button
 function minus(number) {
-    var minusNumber = parseInt(number)-1;
-    if(minusNumber >= 1) {
-        $("#input").val(minusNumber);
+    var minus = parseInt(number)-1;
+    if(minus >= 1) {
+        $("#input").val(minus);
         getGuest($("#input").val());
     }
 }
 
+
 //new quantity = new guest * old quantity / old quest
-// function to calculate quantity
-function getGuest(newGuest) {
-    var newQuanlity;
-    var resultQuantity = "";
-    dataQuantity.ingredients.forEach(element => {
+// function for new quanlity
+function getGuest(newQuest) {
+    var newQuantity;
+    var result = "";
+    allQuantities.ingredients.forEach(element => {
         var {quantity,iconUrl,name,unit} = element;
-        newQuanlity = newGuest * quantity / oldGuest;
-        resultQuantity += `
+        newQuantity = quantity/oldGuest*newQuest;
+        result += `
         <tr>
-        <td><img src="${iconUrl}" style="width:70px"></td>
-        <td id='quantity'>${newQuanlity}</td>
+        <td><img src="${iconUrl}" style="width:60px"></td>
+        <td>${newQuantity}</td>
         <td>${unit[0]}</td>
         <td>${name}</td>
         </tr>
     `;
     });
-     $("#table").html(resultQuantity);
+     $("#table").html(result);
 }
 
